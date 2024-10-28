@@ -9,8 +9,9 @@ import math
 def index_range(page: int, page_size: int) -> Tuple[int]:
     """Return the start and end index
     """
-    n = page * page_size
-    return (n - page_size, n)
+    start = (page - 1) * page_size
+    end = start + page_size
+    return (start, end)
 
 
 class Server:
@@ -33,10 +34,10 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-        assert isinstance(page, int) and page > 0
-        assert isinstance(page_size, int) and page_size > 0
+        assert type(page) is int and type(page_size) is int
+        assert page > 0 and page_size > 0
         start, end = index_range(page, page_size)
         data = self.dataset()
-        if start > len(data) or end > len(data):
+        if start > len(data):
             return []
         return data[start:end]
