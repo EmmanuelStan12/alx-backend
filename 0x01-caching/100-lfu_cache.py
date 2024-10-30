@@ -6,12 +6,14 @@ from base_caching import BaseCaching
 
 class LFUCache(BaseCaching):
     """Implements an LFU (Least Frequently Used) caching algorithm."""
-    
+
     def __init__(self):
         super().__init__()
-        self.freq_data = {}      # {key: frequency}
-        self.freq_keys = {}      # {frequency: list of keys with that frequency}
-        self.min_freq = 0        # Tracks the minimum frequency of any key in the cache
+        # {key: frequency}
+        self.freq_data = {}
+        # {frequency: list of keys with that frequency}
+        self.freq_keys = {}
+        self.min_freq = 0
 
     def put(self, key, item):
         """Adds an item to the cache or updates it if it already exists."""
@@ -66,7 +68,7 @@ class LFUCache(BaseCaching):
         """Removes the least frequently used item from the cache."""
         # Evict the least frequently used key (min_freq bucket)
         keys_at_min_freq = self.freq_keys[self.min_freq]
-        lfu_key = keys_at_min_freq.pop(0)  # Remove the oldest inserted key at min_freq
+        lfu_key = keys_at_min_freq.pop(0)
 
         if not keys_at_min_freq:
             del self.freq_keys[self.min_freq]
