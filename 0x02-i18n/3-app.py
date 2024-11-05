@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Basic babel app
+"""Basic Flask app with i18n support
 """
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_babel import Babel
 
 
@@ -30,7 +30,7 @@ def get_locale() -> str:
 def index() -> str:
     """Returns a page
     """
-    return render_template('1-index.html')
+    return render_template('3-index.html')
 
 
 if __name__ == '__main__':
