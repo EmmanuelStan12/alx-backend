@@ -40,12 +40,14 @@ def get_user() -> Union[Dict, None]:
 
     return None
 
+
 @app.before_request
 def before_request() -> None:
     """Executes before every func
     """
     user = get_user()
     g.user = user
+
 
 @babel.localeselector
 def get_locale() -> str:

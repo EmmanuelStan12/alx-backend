@@ -41,12 +41,14 @@ def get_user() -> Union[Dict, None]:
 
     return None
 
+
 @app.before_request
 def before_request() -> None:
     """Executes before every func
     """
     user = get_user()
     g.user = user
+
 
 @babel.localeselector
 def get_locale() -> str:
@@ -75,6 +77,7 @@ def get_timezone() -> str:
         return pytz.timezone(timezone).zone
     except pytz.exceptions.UnknownTimeZoneError:
         return app.config['BABEL_DEFAULT_TIMEZONE']
+
 
 @app.route("/")
 def index() -> str:
