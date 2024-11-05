@@ -19,6 +19,13 @@ app.url_map.strict_slashes = False
 babel = Babel(app)
 
 
+@babel.localeselector
+def get_locale():
+    """Retrieves the locale for the request
+    """
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
+
+
 @app.route("/")
 def index() -> str:
     """Returns a page
