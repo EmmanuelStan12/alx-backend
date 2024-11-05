@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Basic Flask app with i18n support
 """
+import pytz
 from flask import Flask, render_template, request, g
-from flask_babel import Babel
+from flask_babel import Babel, format_datetime
 from typing import Dict, Union
 
 
@@ -63,11 +64,24 @@ def get_locale() -> str:
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
+@babel.timezoneselector
+def get_timezone() -> str:
+    """Retrieves timezone for request.
+    """
+    timezone = request.args.get('timezone', '')
+    if not timezone and g.user:
+        timezone = g.user['timezone']
+    try:
+        return pytz.timezone(timezone).zone
+    except pytz.exceptions.UnknownTimeZoneError:
+        return app.config['BABEL_DEFAULT_TIMEZONE']
+
 @app.route("/")
 def index() -> str:
     """Returns a page
     """
-    return render_template('6-index.html')
+    g.time = format_datetime()
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
